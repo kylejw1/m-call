@@ -1,0 +1,3 @@
+# Module marketcall
+# RPC service class, partial path of RPC policy file
+com.kylejw.marketcall.client.GreetingService, 2BEE1B8230EC1E75CA845FD190CD7B3D.gwt.rpc

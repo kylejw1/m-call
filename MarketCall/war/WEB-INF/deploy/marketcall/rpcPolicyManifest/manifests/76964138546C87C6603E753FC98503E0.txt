@@ -1,0 +1,2 @@
+serviceClass: com.kylejw.marketcall.client.GreetingService
+path: 2BEE1B8230EC1E75CA845FD190CD7B3D.gwt.rpc
