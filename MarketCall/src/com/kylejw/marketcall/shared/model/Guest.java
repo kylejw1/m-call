@@ -4,12 +4,14 @@ public class Guest {
     
 	private final String name;
     private final String company = "";
+    private final int id;
     
     public String getName() { return name; }
     public String getCompany() { return company; }
 
-    public Guest(String name) {
-    	this.name = name;
+    public Guest(int id, String name) {
+    	this.id = id;
+    	this.name = name.trim();
     }
     
     @Override
@@ -21,12 +23,20 @@ public class Guest {
     @Override
     public boolean equals(Object obj)
     {
-        return this.hashCode() == obj.hashCode();
+    	if (obj.getClass() != Guest.class)
+    		return false;
+    	
+    	return this.id == ((Guest)obj).id;
+    	
+//        return this.hashCode() == obj.hashCode();
     }
 
     @Override
     public int hashCode()
     {
-        return name.hashCode() ^ company.hashCode();
+    	// TODO: Potential to mismatch here if ID comes from two sources.  Wtf to do?
+    	
+    	return id;
+//        return name.hashCode() ^ company.hashCode();
     }
 }

@@ -1,7 +1,13 @@
 package com.kylejw.marketcall.server;
 
+import java.util.List;
+
 import com.kylejw.marketcall.client.GreetingService;
-import com.kylejw.marketcall.shared.FieldVerifier;
+import com.kylejw.marketcall.server.guests.BnnGuestMiner;
+import com.kylejw.marketcall.server.guests.IGuestMiner;
+import com.kylejw.marketcall.server.guests.MarketCallGuestMiner;
+import com.kylejw.marketcall.server.guests.MarketCallTonightGuestMiner;
+import com.kylejw.marketcall.shared.model.Guest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -12,23 +18,25 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
 	public String greetServer(String input) throws IllegalArgumentException {
-		// Verify that the input is valid. 
-		if (!FieldVerifier.isValidName(input)) {
-			// If the input is not valid, throw an IllegalArgumentException back to
-			// the client.
-			throw new IllegalArgumentException(
-					"Name must be at least 4 characters long");
+		
+		IGuestMiner miner = new BnnGuestMiner() {
+			
+			@Override
+			protected String getFormat() {
+				return "http://www.bnn.ca/WebServices/Cache/AjaxServices.svc/GetNewMarketCallUpcomingGuests?showID=280&numDays=8";
+			}
+		};
+		
+		
+		List<Guest> guests = new MarketCallGuestMiner().getGuests();
+		guests.addAll(new MarketCallTonightGuestMiner().getGuests());
+
+		StringBuilder sb = new StringBuilder();
+		for (Guest g : guests) {
+			sb.append(g.getName() + ", ");
 		}
-
-		String serverInfo = getServletContext().getServerInfo();
-		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-
-		// Escape data from the client to avoid cross-site script vulnerabilities.
-		input = escapeHtml(input);
-		userAgent = escapeHtml(userAgent);
-
-		return "Hello, " + input + "!<br><br>I am running " + serverInfo
-				+ ".<br><br>It looks like you are using:<br>" + userAgent;
+		
+		return sb.toString();
 	}
 
 	/**
