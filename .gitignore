@@ -27,6 +27,6 @@ www-test/
 #old GWT (1.5) created this dir
 .gwt-tmp/
 
-./MarketCall/war/marketcall/*
+*/war/marketcall/*
 
-./MarketCall/war/WEB-INF/appengine-geterated/*
+*/war/WEB-INF/appengine-geterated/*
