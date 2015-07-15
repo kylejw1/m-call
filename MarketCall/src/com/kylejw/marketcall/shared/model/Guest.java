@@ -1,17 +1,22 @@
 package com.kylejw.marketcall.shared.model;
 
+import java.util.Date;
+
 public class Guest {
     
 	private final String name;
     private final String company = "";
     private final int id;
+    private final Date appearanceDate;
     
     public String getName() { return name; }
     public String getCompany() { return company; }
+    public Date getAppearanceDate() { return appearanceDate; }
 
-    public Guest(int id, String name) {
+    public Guest(Date appearanceDate, int id, String name) {
     	this.id = id;
     	this.name = name.trim();
+    	this.appearanceDate = appearanceDate;
     }
     
     @Override

@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +57,7 @@ public abstract class BnnGuestMiner implements IGuestMiner {
     {
     	final String ID_STRING = "GuestID";
     	final String NAME_STRING = "GuestName";
+    	final String DATE_STRING = "Date";
     	
     	ArrayList<Guest> guests = new ArrayList<>();
     	
@@ -62,12 +68,25 @@ public abstract class BnnGuestMiner implements IGuestMiner {
     		for (int i = 0; i < jsa.length(); i++) {
     			JSONObject o = jsa.getJSONObject(i);
     			
-    			if (!o.has(ID_STRING) || !o.has(NAME_STRING))
+    			if (!o.has(ID_STRING) || !o.has(NAME_STRING) || !o.has(DATE_STRING))
     				continue;
     			
     			int id = Integer.parseInt(o.get(ID_STRING).toString().trim());
+
+    			Pattern p = Pattern.compile("\\/Date\\((\\d+)[^\\d]+.*");
+    			Matcher m = p.matcher("/Date(1436979600000-0400)/");
+
+    			if (!m.matches())
+    			{
+    				boolean kyle = true;
+    			}
     			
-    			Guest g = new Guest(id, o.get(NAME_STRING).toString().trim());
+    			String msec = m.group(1);
+
+    			Calendar calendar = Calendar.getInstance();
+    			calendar.setTimeInMillis(Long.valueOf(msec));
+    			
+    			Guest g = new Guest(calendar.getTime(), id, o.get(NAME_STRING).toString().trim());
     			
     			guests.add(g);
     		}

@@ -19,15 +19,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public String greetServer(String input) throws IllegalArgumentException {
 		
-		IGuestMiner miner = new BnnGuestMiner() {
-			
-			@Override
-			protected String getFormat() {
-				return "http://www.bnn.ca/WebServices/Cache/AjaxServices.svc/GetNewMarketCallUpcomingGuests?showID=280&numDays=8";
-			}
-		};
-		
-		
 		List<Guest> guests = new MarketCallGuestMiner().getGuests();
 		guests.addAll(new MarketCallTonightGuestMiner().getGuests());
 
@@ -35,7 +26,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		for (Guest g : guests) {
 			sb.append(g.getName() + ", ");
 		}
-		
+
 		return sb.toString();
 	}
 
