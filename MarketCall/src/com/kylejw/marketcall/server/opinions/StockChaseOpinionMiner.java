@@ -111,7 +111,7 @@ public class StockChaseOpinionMiner implements IOpinionMiner {
         
         int emptyCount = 0;
         boolean finished = false;
-        for (int index = 1; (index < max) && !finished; index++)
+        for (int index = 1; (index <= max) && !finished; index++)
         {
             String page = requestPage(index);
             List<Opinion> opinions = parseOpinions(page);

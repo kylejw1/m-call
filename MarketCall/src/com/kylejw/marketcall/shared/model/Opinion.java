@@ -1,6 +1,12 @@
 package com.kylejw.marketcall.shared.model;
 import java.util.Date;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+@PersistenceCapable
 public class Opinion {
 	
     public Date getDate() { return date; }
@@ -11,19 +17,36 @@ public class Opinion {
 	public double getPrice() { return price; }
 	public String getSymbol() { return symbol; }
 
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private Long datastoreId;
+	
+	@Persistent
 	private final Date date;
+	
+	@Persistent
 	private final String signal;
+	
+	@Persistent
 	private final String company;
+	
+	@Persistent
 	private final String expert;
+	
+	@Persistent
     private final String opinionString;
+	
+	@Persistent
     private final double price;
+	
+	@Persistent
     private final String symbol;
     
     public Opinion(Date date, String expert, String company, String signal, double price, String symbol, String opinionString) {
     	this.date = date;
     	this.signal = signal;
     	this.company = company;
-    	this.expert = expert;
+    	this.expert = expert.replaceAll("[^a-zA-Z]", "").toLowerCase();;
     	this.opinionString = opinionString;
     	this.price = price;
     	this.symbol = symbol;

@@ -13,7 +13,7 @@ import com.kylejw.marketcall.shared.model.Guest;
 public class MarketCallDaemon {
 
 	public static void main(String[] args) {
-		
+
 		IOpinionMiner m = new StockChaseOpinionMiner();
 		m.getOpinions(new Date(), 5);
 		

@@ -2,11 +2,29 @@ package com.kylejw.marketcall.shared.model;
 
 import java.util.Date;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+@PersistenceCapable
 public class Guest {
     
+	
+	@Persistent
 	private final String name;
+	
+	@Persistent
     private final String company = "";
+    
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Long key;
+    
+    @Persistent
     private final int id;
+    
+    @Persistent
     private final Date appearanceDate;
     
     public String getName() { return name; }
