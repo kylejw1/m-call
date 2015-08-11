@@ -74,7 +74,7 @@ public abstract class BnnGuestMiner implements IGuestMiner {
     			int id = Integer.parseInt(o.get(ID_STRING).toString().trim());
 
     			Pattern p = Pattern.compile("\\/Date\\((\\d+)[^\\d]+.*");
-    			Matcher m = p.matcher("/Date(1436979600000-0400)/");
+    			Matcher m = p.matcher(o.getString(DATE_STRING));
 
     			if (!m.matches())
     			{

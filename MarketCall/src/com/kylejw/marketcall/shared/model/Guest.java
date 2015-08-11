@@ -7,30 +7,39 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @PersistenceCapable
-public class Guest {
+public class Guest implements IsSerializable {
     
 	
 	@Persistent
-	private final String name;
+	private String name;
 	
 	@Persistent
-    private final String company = "";
+    private String company = "";
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long key;
     
     @Persistent
-    private final int id;
+    private int id;
     
     @Persistent
-    private final Date appearanceDate;
+    private Date appearanceDate;
     
     public String getName() { return name; }
     public String getCompany() { return company; }
     public Date getAppearanceDate() { return appearanceDate; }
 
+    public Guest() {
+    	this.id = 0;
+    	this.name = "";
+//    	this.company = "";
+    	this.appearanceDate = new Date();
+    }
+    
     public Guest(Date appearanceDate, int id, String name) {
     	this.id = id;
     	this.name = name.trim();

@@ -1,5 +1,6 @@
 package com.kylejw.marketcall.server;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +9,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
-import com.kylejw.marketcall.client.GreetingService;
+import com.kylejw.marketcall.client.GuestService;
 import com.kylejw.marketcall.server.guests.BnnGuestMiner;
 import com.kylejw.marketcall.server.guests.IGuestMiner;
 import com.kylejw.marketcall.server.guests.MarketCallGuestMiner;
@@ -18,18 +19,34 @@ import com.kylejw.marketcall.server.opinions.OpinionStore;
 import com.kylejw.marketcall.server.opinions.StockChaseOpinionMiner;
 import com.kylejw.marketcall.shared.model.Guest;
 import com.kylejw.marketcall.shared.model.Opinion;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-		GreetingService {
+public class GuestServiceImpl extends RemoteServiceServlet implements
+		GuestService {
 
-	public String greetServer(String input) throws IllegalArgumentException {
+	private static final List<IGuestMiner> guestMiners = new ArrayList<IGuestMiner>();
+	public GuestServiceImpl() {
+		guestMiners.add(new MarketCallGuestMiner());
+		guestMiners.add(new MarketCallTonightGuestMiner());
+	}
+	
+	public ArrayList<Guest> getGuestList() throws IllegalArgumentException {
 		
-		StringBuilder sb = new StringBuilder();
+		ArrayList<Guest> guests = new ArrayList<Guest>();
+		
+		for (IGuestMiner miner : guestMiners) {
+			guests.addAll(miner.getGuests());
+		}
+		
+		return guests;
+//		StringBuilder sb = new StringBuilder();
+		
+		
 //		List<Guest> guests = new MarketCallGuestMiner().getGuests();
 //		guests.addAll(new MarketCallTonightGuestMiner().getGuests());
 //
@@ -38,15 +55,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 //			sb.append(g.getName() + ", ");
 //		}
 //
-		IOpinionMiner om = new StockChaseOpinionMiner();
-		List<Opinion> opinions = om.getOpinions(new Date(), 1);
-		
-		OpinionStore os = new OpinionStore();
-		os.store(opinions);
+//		IOpinionMiner om = new StockChaseOpinionMiner();
+//		List<Opinion> opinions = om.getOpinions(new Date(), 1);
+//		
+//		OpinionStore os = new OpinionStore();
+//		os.store(opinions);
 
 //		Collection<Opinion> opinions = os.find("jim huang");
 		
-		return sb.toString();
+//		return sb.toString();
 	}
 
 	/**

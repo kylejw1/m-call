@@ -6,8 +6,10 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @PersistenceCapable
-public class Opinion {
+public class Opinion implements IsSerializable {
 	
     public Date getDate() { return date; }
 	public String getSignal() { return signal; }

@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	  .guest {
+	   	margin: 5px 0px 5px 0px; 
+	  }
+
+		.guest.name {
+		}
+.guest.company {
+		}
+.guest.date {
+		}
+	</ui:style>
+	<g:HTMLPanel addStyleNames="{style.guest">
+	    <g:HTML addStyleNames="{style.name}" ui:field="name" />
+	    <g:HTML addStyleNames="{style.company" ui:field="company" />
+	    <g:HTML addStyleNames="{style.date" ui:field="date" />
+	</g:HTMLPanel>
+</ui:UiBinder> 
